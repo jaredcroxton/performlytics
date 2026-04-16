@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performlytics · Ask your data anything. In plain English.</title>
+<meta name="description" content="AI-powered business intelligence. Upload a spreadsheet, ask a question, get a dashboard. No formulas, no pivot tables. Performlytics reads your data and writes the report you would have written, faster.">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Performlytics">
+<meta property="og:title" content="Performlytics">
+<meta property="og:description" content="Ask your data anything. In plain English.">
+<meta property="og:image" content="/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Performlytics">
+<meta name="twitter:description" content="Ask your data anything. In plain English.">
+<meta name="twitter:image" content="/og-image.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --ink-2: #111111;
+    --ink-3: #1A1A1A;
+    --cream: #F0F0F5;
+    --cream-2: #E0E0EA;
+    --blue: #3B82F6;
+    --blue-2: #60A5FA;
+    --blue-soft: #93C5FD;
+    --violet: #8B5CF6;
+    --violet-2: #A78BFA;
+    --cyan: #22D3EE;
+    --muted: #71717A;
+    --border: rgba(255,255,255,0.07);
+    --hero-h1: clamp(3.2rem, 11vw, 11rem);
+    --hero-h1-s: clamp(2.2rem, 7.5vw, 7.5rem);
+    --section-pad: clamp(5rem, 10vw, 9rem);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Archivo', system-ui, sans-serif;
+    background: var(--ink);
+    color: var(--cream);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    line-height: 1.5;
+    zoom: 0.85;
+  }
+  ::selection { background: var(--blue); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+
+  .fade { opacity: 0; transform: translateY(20px); animation: fadeUp 0.9s ease forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.19s}.d4{animation-delay:.26s}.d5{animation-delay:.33s}.d6{animation-delay:.40s}.d7{animation-delay:.47s}
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .stagger > * { transition-delay: calc(var(--i, 0) * 80ms); }
+
+  /* HEADER */
+  header {
+    position: fixed; inset: 0 0 auto; z-index: 100;
+    padding: 1.2rem clamp(1rem, 3vw, 2.5rem);
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(10,10,10,0.55);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  header.scrolled { background: rgba(10,10,10,0.88); }
+  .brand { display: flex; align-items: center; gap: 0.65rem; font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; }
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--blue), var(--violet));
+    display: grid; place-items: center;
+    box-shadow: 0 6px 18px rgba(59,130,246,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .brand-mark svg { width: 18px; height: 18px; }
+  nav ul { list-style: none; display: flex; gap: 2.2rem; align-items: center; font-size: 0.85rem; font-weight: 500; }
+  nav a { opacity: 0.75; transition: opacity 0.2s, color 0.2s; }
+  nav a:hover { opacity: 1; color: var(--blue-2); }
+  .nav-cta {
+    background: var(--blue); color: var(--ink) !important; padding: 0.65rem 1.2rem;
+    border-radius: 999px; font-weight: 700; opacity: 1 !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(59,130,246,0.4); color: var(--ink) !important; }
+  @media (max-width: 760px) { nav ul li:not(:last-child) { display: none; } }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding: 12rem 1.5rem 6rem;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(59,130,246,0.12), transparent 55%),
+      radial-gradient(ellipse at 80% 70%, rgba(139,92,246,0.10), transparent 55%),
+      linear-gradient(180deg, #050507 0%, #0A0A0A 100%);
+  }
+
+  /* Data particle grid behind hero */
+  .data-grid {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .data-grid canvas { width: 100%; height: 100%; display: block; }
+
+  .hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue-2);
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 999px;
+    background: rgba(59,130,246,0.06);
+    margin-bottom: 2.5rem;
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 8px var(--blue), 0 0 16px var(--blue);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.4; } }
+
+  h1.display {
+    font-weight: 900; letter-spacing: -0.04em; line-height: 0.88;
+    text-transform: uppercase;
+  }
+  h1.display .l1 { font-size: var(--hero-h1-s); display: block; color: var(--cream); }
+  h1.display .l2 { font-size: var(--hero-h1); display: block; color: var(--blue); font-style: italic; font-family: 'Instrument Serif', serif; font-weight: 400; letter-spacing: -0.02em; line-height: 0.9; }
+  h1.display .l3 { font-size: var(--hero-h1-s); display: block; color: var(--cream); }
+
+  .hero-sub { max-width: 620px; font-size: clamp(1.05rem, 1.4vw, 1.25rem); color: rgba(240,240,245,0.7); margin: 2.2rem 0 2.8rem; line-height: 1.55; }
+  .hero-sub b { color: var(--cream); font-weight: 600; }
+
+  .hero-ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 1rem 1.6rem; border-radius: 999px;
+    font-weight: 700; font-size: 0.95rem;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    cursor: pointer; border: none;
+  }
+  .btn-primary {
+    background: var(--blue); color: var(--ink);
+    box-shadow: 0 10px 30px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(59,130,246,0.5); }
+  .btn-ghost { background: transparent; color: var(--cream); border: 1px solid var(--border); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.04); border-color: rgba(59,130,246,0.3); }
+  .btn .arrow { transition: transform 0.2s; }
+  .btn:hover .arrow { transform: translateX(4px); }
+
+  /* INTEGRATIONS */
+  .integrations {
+    margin-top: 4rem;
+    display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+  }
+  .integrations-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase;
+  }
+  .int-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .int-tag {
+    padding: 0.4rem 0.8rem; border-radius: 999px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: rgba(240,240,245,0.65);
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .int-tag .tdot { width: 6px; height: 6px; border-radius: 50%; }
+  .int-tag .tdot.stripe { background: #635BFF; }
+  .int-tag .tdot.hubspot { background: #FF7A59; }
+  .int-tag .tdot.postgres { background: #336791; }
+  .int-tag .tdot.segment { background: #52BD95; }
+  .int-tag .tdot.excel { background: #217346; }
+
+  section { padding: var(--section-pad) 1.5rem; }
+  .container { max-width: 1400px; margin: 0 auto; }
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue-2);
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--blue-2); }
+  .section-title {
+    font-weight: 900; letter-spacing: -0.03em; line-height: 0.95;
+    font-size: clamp(2.5rem, 6vw, 5.5rem); text-transform: uppercase;
+    margin-bottom: 1.5rem; max-width: 16ch;
+  }
+  .section-title em {
+    font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;
+    color: var(--blue); letter-spacing: -0.01em;
+  }
+  .section-lede { font-size: clamp(1.05rem, 1.3vw, 1.2rem); color: rgba(240,240,245,0.65); max-width: 60ch; line-height: 1.6; }
+
+  /* PROBLEM */
+  .problem { background: linear-gradient(180deg, var(--ink) 0%, #08080C 100%); }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  @media (max-width: 900px) { .problem-grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .old-vs-new { display: flex; flex-direction: column; gap: 1.5rem; }
+  .compare-card {
+    padding: 2rem; border-radius: 20px; border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .compare-card.old {
+    background: linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    opacity: 0.6;
+  }
+  .compare-card.old .compare-tag { background: rgba(255,60,60,0.15); color: #FF6B6B; border-color: rgba(255,60,60,0.3); }
+  .compare-card.new {
+    background: linear-gradient(160deg, rgba(59,130,246,0.08), rgba(139,92,246,0.04));
+    border-color: rgba(59,130,246,0.25);
+  }
+  .compare-card.new .compare-tag { background: rgba(59,130,246,0.15); color: var(--blue-2); border-color: rgba(59,130,246,0.3); }
+  .compare-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.3rem 0.7rem; border-radius: 999px;
+    border: 1px solid; display: inline-block; margin-bottom: 1rem;
+  }
+  .compare-card h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .compare-card p { font-size: 0.95rem; color: rgba(240,240,245,0.6); line-height: 1.5; }
+  .compare-card.old h4 { text-decoration: line-through; text-decoration-color: rgba(255,60,60,0.5); }
+
+  /* LIVE DASHBOARD */
+  .dashboard-section {
+    background: linear-gradient(180deg, #08080C 0%, var(--ink) 100%);
+    position: relative; overflow: hidden;
+  }
+  .dashboard-section::before {
+    content: ''; position: absolute; top: -30%; left: 40%;
+    width: 60%; height: 120%;
+    background: radial-gradient(circle, rgba(59,130,246,0.10), transparent 60%);
+    pointer-events: none;
+  }
+  .dash-head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: end; margin-bottom: 5rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
+  @media (max-width: 900px) { .dash-head { grid-template-columns: 1fr; } }
+
+  .dash-card {
+    background: #060608; border: 1px solid var(--border);
+    border-radius: 20px; padding: 1.5rem;
+    max-width: 1200px; margin: 0 auto;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    position: relative; z-index: 2;
+  }
+  .dash-bar {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem;
+  }
+  .dash-bar .dot-mac { width: 12px; height: 12px; border-radius: 50%; background: #333; }
+  .dash-bar .dot-mac:nth-child(1) { background: #FF5F57; }
+  .dash-bar .dot-mac:nth-child(2) { background: #FEBC2E; }
+  .dash-bar .dot-mac:nth-child(3) { background: #28C840; }
+  .dash-bar .title { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+
+  .dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 700px) { .dash-grid { grid-template-columns: 1fr 1fr; } }
+  .metric-card {
+    background: var(--ink-2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.2rem 1.2rem 0; position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .metric-card .metric-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .metric-card .metric-value {
+    font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1;
+    color: var(--cream);
+    transition: text-shadow 0.3s;
+  }
+  .metric-card .metric-value.live { text-shadow: 0 0 18px rgba(59,130,246,0.4); }
+  .metric-card .metric-delta {
+    margin-top: 0.4rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    margin-bottom: 1rem;
+  }
+  .metric-card .metric-delta.up { color: #34D399; }
+  .metric-card .metric-delta.down { color: #FF6B6B; }
+  .metric-card .sparkline {
+    margin-top: auto;
+    width: calc(100% + 2.4rem); margin-left: -1.2rem;
+    height: 48px;
+    opacity: 0;
+    transition: opacity 1.2s ease 0.3s;
+  }
+  .metric-card .sparkline.visible { opacity: 0.6; }
+  .metric-card .sparkline svg { width: 100%; height: 100%; }
+  .metric-card .sparkline .spark-path {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    transition: stroke-dashoffset 2s ease;
+  }
+  .metric-card .sparkline .spark-path.drawn { stroke-dashoffset: 0; }
+
+  /* Scanning line effect across dashboard */
+  .dash-card .scan-line {
+    position: absolute; top: 0; left: -100%; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    z-index: 5;
+    animation: scanLine 4s linear infinite;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  @keyframes scanLine {
+    0%   { left: -100%; }
+    100% { left: 200%; }
+  }
+
+  /* Live dot on metric cards */
+  .metric-card .live-dot {
+    position: absolute; top: 1rem; right: 1rem;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 8px var(--blue);
+    animation: pulse 2s ease-in-out infinite;
+    opacity: 0; transition: opacity 0.5s;
+  }
+  .metric-card .live-dot.on { opacity: 1; }
+
+  .chart-row { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 700px) { .chart-row { grid-template-columns: 1fr; } }
+  .chart-panel {
+    background: var(--ink-2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.2rem; min-height: 240px;
+    position: relative; overflow: hidden;
+  }
+  .chart-panel .chart-title {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  /* Animated bar chart */
+  .bar-chart {
+    display: flex; align-items: flex-end; gap: 6px;
+    height: 160px; padding-top: 1rem;
+  }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+  .bar {
+    width: 100%; border-radius: 4px 4px 0 0;
+    background: linear-gradient(180deg, var(--blue), rgba(59,130,246,0.3));
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .bar.violet { background: linear-gradient(180deg, var(--violet), rgba(139,92,246,0.3)); }
+  .bar.grown { transform: scaleY(1); }
+  .bar-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+    color: var(--muted); letter-spacing: 0.1em;
+  }
+
+  /* Animated line chart */
+  .line-chart { height: 160px; position: relative; }
+  .line-chart svg { width: 100%; height: 100%; }
+  .line-path {
+    fill: none; stroke-width: 2.5;
+    stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    transition: stroke-dashoffset 2.5s ease;
+  }
+  .line-path.drawn { stroke-dashoffset: 0; }
+  .line-path.blue { stroke: var(--blue); filter: drop-shadow(0 0 6px rgba(59,130,246,0.5)); }
+  .line-path.violet { stroke: var(--violet); filter: drop-shadow(0 0 6px rgba(139,92,246,0.4)); }
+  .line-area {
+    opacity: 0; transition: opacity 1.5s ease 1s;
+  }
+  .line-area.drawn { opacity: 0.15; }
+  .line-area.blue { fill: var(--blue); }
+  .line-area.violet { fill: var(--violet); }
+
+  /* AI insight strip */
+  .ai-insight {
+    background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.06));
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 14px; padding: 1.2rem;
+    display: flex; gap: 0.8rem; align-items: flex-start;
+    font-size: 0.88rem; color: rgba(240,240,245,0.85);
+    line-height: 1.5;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .ai-insight.visible { opacity: 1; transform: translateY(0); }
+  .ai-insight svg { width: 20px; height: 20px; color: var(--blue-2); flex-shrink: 0; margin-top: 2px; }
+  .ai-insight b { color: var(--blue-2); font-weight: 700; }
+
+  /* QUERY DEMO */
+  .query-section {
+    background: var(--ink); position: relative; overflow: hidden;
+  }
+  .query-section::after {
+    content: ''; position: absolute; bottom: -20%; right: -5%;
+    width: 50%; height: 100%;
+    background: radial-gradient(circle, rgba(139,92,246,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .query-demo {
+    max-width: 900px; margin: 4rem auto 0;
+    background: #060608; border: 1px solid var(--border);
+    border-radius: 20px; padding: 2rem;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    position: relative; z-index: 2;
+  }
+  .query-input {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--ink-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.92rem;
+    color: var(--cream);
+  }
+  .query-input .prompt { color: var(--violet-2); font-weight: 500; flex-shrink: 0; }
+  .query-typed { color: var(--cream); min-height: 1.2em; }
+  .query-typed .caret { display: inline-block; width: 2px; height: 1em; background: var(--blue); vertical-align: -2px; margin-left: 1px; animation: blink 0.9s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .query-answer {
+    padding: 1.5rem;
+    background: linear-gradient(160deg, rgba(59,130,246,0.06), rgba(139,92,246,0.04));
+    border: 1px dashed rgba(59,130,246,0.25);
+    border-radius: 14px;
+    font-size: 1rem; line-height: 1.6;
+    color: rgba(240,240,245,0.85);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .query-answer.visible { opacity: 1; transform: translateY(0); }
+  .query-answer b { color: var(--blue-2); }
+  .query-answer .num { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.8rem; color: var(--blue); display: block; margin: 0.8rem 0 0.4rem; letter-spacing: -0.03em; }
+
+  /* FEATURES */
+  .features { background: var(--ink); }
+  .features-head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: end; margin-bottom: 5rem; }
+  @media (max-width: 900px) { .features-head { grid-template-columns: 1fr; } }
+  .features-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.2rem; }
+  .feature {
+    background: var(--ink-2); border: 1px solid var(--border);
+    border-radius: 24px; padding: 2.5rem;
+    transition: transform 0.3s, border-color 0.3s;
+    min-height: 340px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .feature:hover { transform: translateY(-4px); border-color: rgba(59,130,246,0.3); }
+  .feature-num { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--blue-2); }
+  .feature h3 { font-size: clamp(1.4rem, 2vw, 1.75rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 1rem 0 0.8rem; }
+  .feature p { color: rgba(240,240,245,0.6); font-size: 0.98rem; line-height: 1.55; }
+  .feature-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--blue), var(--violet));
+    display: grid; place-items: center; margin-bottom: 1rem;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  .feature-icon svg { width: 26px; height: 26px; color: var(--ink); }
+  .feature.violet-accent .feature-icon { background: linear-gradient(135deg, var(--violet), #7C3AED); }
+  .feature.violet-accent .feature-num { color: var(--violet-2); }
+  .f-wide { grid-column: span 7; }
+  .f-tall { grid-column: span 5; }
+  .f-third { grid-column: span 4; }
+  @media (max-width: 900px) { .f-wide, .f-tall, .f-third { grid-column: span 12; } .feature { min-height: 0; } }
+
+  /* HOW IT WORKS */
+  .how { background: linear-gradient(180deg, var(--ink) 0%, #08080C 100%); }
+  .how-head { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end; margin-bottom: 5rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
+  @media (max-width: 900px) { .how-head { grid-template-columns: 1fr; } }
+  .how-head .section-lede { color: rgba(240,240,245,0.6); }
+  .steps { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  @media (max-width: 800px) { .steps { grid-template-columns: 1fr; } }
+  .step {
+    background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+    border-radius: 24px; padding: 2.4rem; transition: border-color 0.3s;
+  }
+  .step:hover { border-color: rgba(59,130,246,0.3); }
+  .step-num {
+    font-family: 'Instrument Serif', serif; font-style: italic;
+    font-size: 3.2rem; line-height: 1; color: var(--blue);
+    margin-bottom: 1.2rem; display: block;
+  }
+  .step h4 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+  .step p { color: rgba(240,240,245,0.6); font-size: 0.98rem; line-height: 1.55; }
+
+  /* REVENUE */
+  .revenue {
+    position: relative; min-height: 70vh; display: flex; align-items: center;
+    padding: var(--section-pad) 1.5rem;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.15), transparent 55%),
+      radial-gradient(ellipse at 80% 50%, rgba(139,92,246,0.10), transparent 55%),
+      var(--ink);
+  }
+  .revenue .container { position: relative; z-index: 2; }
+  .revenue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  @media (max-width: 900px) { .revenue-grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .big-stat {
+    font-family: 'Instrument Serif', serif; font-style: italic;
+    font-size: clamp(5rem, 10vw, 10rem); line-height: 0.9;
+    color: var(--blue); letter-spacing: -0.04em; font-weight: 400;
+  }
+  .big-stat-label { font-size: 1.1rem; color: rgba(240,240,245,0.65); max-width: 32ch; margin-top: 1.5rem; line-height: 1.5; }
+  .pullquote { font-size: clamp(1.6rem, 2.8vw, 2.4rem); font-weight: 500; line-height: 1.3; letter-spacing: -0.02em; }
+  .pullquote::before {
+    content: '"'; font-family: 'Instrument Serif', serif; font-style: italic;
+    font-size: 4em; line-height: 0.5; color: var(--blue);
+    display: inline-block; transform: translateY(0.3em); margin-right: 0.1em;
+  }
+  .quote-attr { margin-top: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* HOW - cream section */
+  .how-cream { background: var(--cream); color: var(--ink); }
+  .how-cream .section-eyebrow { color: var(--violet); }
+  .how-cream .section-eyebrow::before { background: var(--violet); }
+  .how-cream .section-title em { color: var(--violet); }
+  .how-cream .section-lede { color: rgba(10,10,10,0.65); }
+  .how-cream .step { background: var(--cream-2); border-color: rgba(10,10,10,0.08); }
+  .how-cream .step h4 { color: var(--ink); }
+  .how-cream .step p { color: rgba(10,10,10,0.6); }
+  .how-cream .step-num { color: var(--violet); }
+
+  /* DEMO FORM */
+  .demo-form {
+    background: linear-gradient(180deg, var(--ink) 0%, #08080C 100%);
+    position: relative; overflow: hidden; padding: var(--section-pad) 1.5rem;
+  }
+  .demo-form::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(59,130,246,0.15), transparent 70%);
+    pointer-events: none;
+  }
+  .form-wrap { max-width: 720px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+  .form-wrap .section-title { margin: 1rem auto 1.5rem; }
+  .form-wrap .section-lede { margin: 0 auto 3rem; }
+  .form-wrap .section-eyebrow { justify-content: center; }
+  form.booking {
+    text-align: left; background: rgba(20,20,20,0.6);
+    backdrop-filter: blur(20px); border: 1px solid var(--border);
+    border-radius: 28px; padding: 2.5rem;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .field label { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .field input, .field select, .field textarea {
+    background: #060606; border: 1px solid var(--border);
+    padding: 0.9rem 1rem; border-radius: 10px;
+    color: var(--cream); font-family: inherit; font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--blue); }
+  .field textarea { min-height: 110px; resize: vertical; }
+  .form-cta { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .form-meta { font-size: 0.82rem; color: var(--muted); display: flex; align-items: center; gap: 0.6rem; }
+  .form-meta svg { width: 14px; height: 14px; color: var(--blue-2); }
+  button[type="submit"] {
+    padding: 1.1rem 2rem; font-size: 1rem;
+    background: var(--blue); color: var(--ink);
+    border: none; border-radius: 999px; font-weight: 800; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 12px 30px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  button[type="submit"]:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(59,130,246,0.5); }
+  .success { display: none; text-align: center; padding: 3rem 2rem; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); border-radius: 20px; }
+  .success svg { width: 64px; height: 64px; color: var(--blue); margin: 0 auto 1rem; display: block; }
+  .success h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .success p { color: rgba(240,240,245,0.65); }
+
+  /* POWERED BY */
+  .powered-section {
+    background: radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.06), transparent 60%), linear-gradient(180deg, #08080C 0%, #0A0806 100%);
+    padding: clamp(1.5rem, 3vw, 3rem) 1.5rem clamp(5rem, 9vw, 7rem);
+    border-top: 1px solid var(--border); text-align: center;
+  }
+  .powered-link { display: inline-block; text-decoration: none; color: var(--cream); transition: transform 0.3s ease; }
+  .powered-link:hover { transform: translateY(-3px); }
+  .powered-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.8rem; display: inline-flex; align-items: center; gap: 0.6rem; }
+  .powered-eyebrow::before, .powered-eyebrow::after { content: ''; width: 28px; height: 1px; background: var(--border); }
+  .powered-headline {
+    font-weight: 900; letter-spacing: -0.035em; line-height: 0.9;
+    font-size: clamp(3rem, 9vw, 8.5rem); text-transform: uppercase;
+  }
+  .powered-headline .powered-by-text { color: var(--cream); display: block; }
+  .powered-headline .brand-name {
+    color: var(--violet); font-family: 'Instrument Serif', serif;
+    font-style: italic; font-weight: 400; letter-spacing: -0.02em;
+    display: inline-flex; align-items: baseline; gap: 0.3em;
+    transition: color 0.3s;
+  }
+  .powered-link:hover .brand-name { color: var(--violet-2); }
+  .powered-headline .brand-name .pw-arrow { font-family: 'Archivo', sans-serif; font-style: normal; font-weight: 900; font-size: 0.6em; transition: transform 0.3s; }
+  .powered-link:hover .pw-arrow { transform: translate(0.15em, -0.1em); }
+  .powered-desc { margin-top: 2rem; font-size: 1rem; color: rgba(240,240,245,0.55); max-width: 50ch; margin-left: auto; margin-right: auto; }
+  .powered-url {
+    margin-top: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+    color: var(--violet); letter-spacing: 0.05em;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 1.3rem; border: 1px solid rgba(139,92,246,0.3);
+    border-radius: 999px; background: rgba(139,92,246,0.06);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .powered-link:hover .powered-url { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.5); }
+
+  /* FOOTER */
+  footer { background: #050505; padding: 4rem 1.5rem 2.5rem; border-top: 1px solid var(--border); }
+  .footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .footer-inner { grid-template-columns: 1fr; text-align: center; gap: 2rem; } }
+  .footer-links { display: flex; gap: 2rem; justify-content: center; font-size: 0.9rem; }
+  .footer-links a { color: var(--muted); transition: color 0.2s; }
+  .footer-links a:hover { color: var(--blue-2); }
+  .powered-by { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  @media (max-width: 800px) { .powered-by { text-align: center; } }
+  .powered-by b { color: var(--violet-2); font-weight: 700; }
+  .footer-legal { max-width: 1400px; margin: 3rem auto 0; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: var(--muted); }
+
+  @media (max-width: 560px) {
+    :root { --section-pad: 4rem; }
+    .feature { padding: 1.75rem; }
+    form.booking { padding: 1.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="brand fade d1">
+    <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18" stroke="#0A0A0A" stroke-width="2.5"/><path d="M7 14l4-4 4 4 5-6" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    Performlytics
+  </a>
+  <nav class="fade d2">
+    <ul>
+      <li><a href="#product">Product</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#demo" class="nav-cta">Book demo →</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="data-grid" aria-hidden="true"><canvas id="particleCanvas"></canvas></div>
+
+  <div class="hero-inner">
+    <span class="eyebrow fade d1"><span class="dot"></span> AI-powered business intelligence</span>
+
+    <h1 class="display">
+      <span class="l1 fade d2">Ask your data</span>
+      <span class="l2 fade d3">anything.</span>
+      <span class="l3 fade d4">In plain English.</span>
+    </h1>
+
+    <p class="hero-sub fade d5">
+      Upload a spreadsheet, connect your stack, ask a question. <b>Performlytics</b> reads
+      your data, builds the dashboard, and writes the AI insight,faster and more
+      thoroughly than any analyst.
+    </p>
+
+    <div class="hero-ctas fade d6">
+      <a href="#demo" class="btn btn-primary">Book a 25-min demo <span class="arrow">→</span></a>
+      <a href="#dashboard" class="btn btn-ghost">See a live dashboard</a>
+    </div>
+
+    <div class="integrations fade d7">
+      <span class="integrations-label">Works with</span>
+      <div class="int-tags">
+        <span class="int-tag"><span class="tdot excel"></span> Excel / CSV</span>
+        <span class="int-tag"><span class="tdot stripe"></span> Stripe</span>
+        <span class="int-tag"><span class="tdot hubspot"></span> HubSpot</span>
+        <span class="int-tag"><span class="tdot postgres"></span> Postgres</span>
+        <span class="int-tag"><span class="tdot segment"></span> Segment</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="product">
+  <div class="container">
+    <div class="problem-grid">
+      <div>
+        <div class="section-eyebrow">The Problem</div>
+        <h2 class="section-title">Excel was built for the <em>1990s.</em></h2>
+        <p class="section-lede">
+          Your business runs on spreadsheets. But the formulas are fragile, the pivot tables
+          are confusing, and nobody trusts the numbers until the one person who built it
+          checks them. That era is over.
+        </p>
+      </div>
+      <div class="old-vs-new reveal">
+        <div class="compare-card old">
+          <span class="compare-tag">Before</span>
+          <h4>6 hours wrangling a spreadsheet</h4>
+          <p>VLOOKUP chains, broken formulas, "which version is the latest?",and the answer still needs a meeting to explain.</p>
+        </div>
+        <div class="compare-card new">
+          <span class="compare-tag">With Performlytics</span>
+          <h4>Ask a question. Get a dashboard.</h4>
+          <p>Upload your spreadsheet, type a question in plain English, and watch the charts, insight, and narrative write themselves.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE DASHBOARD -->
+<section class="dashboard-section" id="dashboard">
+  <div class="container">
+    <div class="dash-head">
+      <div class="reveal">
+        <div class="section-eyebrow">Live Dashboard</div>
+        <h2 class="section-title">Your data, <em>finally</em> understood.</h2>
+      </div>
+      <p class="section-lede reveal">
+        Every chart, every metric, every trend line,generated from your raw data with
+        AI that understands your business jargon, your KPIs, your context.
+      </p>
+    </div>
+
+    <div class="dash-card" id="dashCard">
+      <div class="dash-bar">
+        <span class="dot-mac"></span><span class="dot-mac"></span><span class="dot-mac"></span>
+        <span class="title">performlytics.app / workspace / acme-q1-review</span>
+      </div>
+
+      <div class="scan-line"></div>
+
+      <div class="dash-grid" id="metricsGrid">
+        <div class="metric-card">
+          <span class="live-dot"></span>
+          <div class="metric-label">Revenue MTD</div>
+          <div class="metric-value" data-target="847" data-prefix="$" data-suffix="K">$0K</div>
+          <div class="metric-delta up">+12.4% vs last month</div>
+          <div class="sparkline">
+            <svg viewBox="0 0 200 48" preserveAspectRatio="none">
+              <path class="spark-path" d="M0 42 L20 36 L40 38 L60 30 L80 33 L100 22 L120 26 L140 16 L160 18 L180 9 L200 5" fill="none" stroke="rgba(59,130,246,0.7)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M0 42 L20 36 L40 38 L60 30 L80 33 L100 22 L120 26 L140 16 L160 18 L180 9 L200 5 L200 48 L0 48 Z" fill="rgba(59,130,246,0.12)" class="spark-path" style="stroke:none;"/>
+            </svg>
+          </div>
+        </div>
+        <div class="metric-card">
+          <span class="live-dot"></span>
+          <div class="metric-label">Conversion Rate</div>
+          <div class="metric-value" data-target="3.8" data-suffix="%">0%</div>
+          <div class="metric-delta up">+0.6pp this week</div>
+          <div class="sparkline">
+            <svg viewBox="0 0 200 48" preserveAspectRatio="none">
+              <path class="spark-path" d="M0 38 L30 34 L60 38 L90 28 L120 30 L150 20 L180 17 L200 10" fill="none" stroke="rgba(139,92,246,0.7)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M0 38 L30 34 L60 38 L90 28 L120 30 L150 20 L180 17 L200 10 L200 48 L0 48 Z" fill="rgba(139,92,246,0.12)" class="spark-path" style="stroke:none;"/>
+            </svg>
+          </div>
+        </div>
+        <div class="metric-card">
+          <span class="live-dot"></span>
+          <div class="metric-label">Active Deals</div>
+          <div class="metric-value" data-target="142" data-suffix="">0</div>
+          <div class="metric-delta down">-3 from last week</div>
+          <div class="sparkline">
+            <svg viewBox="0 0 200 48" preserveAspectRatio="none">
+              <path class="spark-path" d="M0 12 L30 14 L60 10 L90 18 L120 22 L150 28 L180 25 L200 32" fill="none" stroke="rgba(255,107,107,0.6)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M0 12 L30 14 L60 10 L90 18 L120 22 L150 28 L180 25 L200 32 L200 48 L0 48 Z" fill="rgba(255,107,107,0.08)" class="spark-path" style="stroke:none;"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <div class="chart-panel">
+          <div class="chart-title">Revenue by channel · last 8 weeks</div>
+          <div class="bar-chart" id="barChart"></div>
+        </div>
+        <div class="chart-panel">
+          <div class="chart-title">Funnel velocity · 30 days</div>
+          <div class="line-chart">
+            <svg viewBox="0 0 300 160" preserveAspectRatio="none">
+              <path class="line-area blue" d="M0 120 L37 100 L75 110 L112 80 L150 90 L187 60 L225 70 L262 40 L300 30 L300 160 L0 160 Z"/>
+              <path class="line-area violet" d="M0 140 L37 130 L75 135 L112 120 L150 125 L187 110 L225 115 L262 95 L300 85 L300 160 L0 160 Z"/>
+              <path class="line-path blue" d="M0 120 L37 100 L75 110 L112 80 L150 90 L187 60 L225 70 L262 40 L300 30"/>
+              <path class="line-path violet" d="M0 140 L37 130 L75 135 L112 120 L150 125 L187 110 L225 115 L262 95 L300 85"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-insight" id="aiInsight">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4 12H0M24 12h-4M6 6L3 3M21 21l-3-3M6 18L3 21M21 3l-3 3"/></svg>
+        <span><b>AI Insight:</b> Revenue from direct is up 18% WoW driven by the Tuesday email blast. Organic has plateaued since Week 5. Recommend reallocating $4K from paid search to email nurture,your CAC there is 3.1x more efficient this quarter.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUERY DEMO -->
+<section class="query-section">
+  <div class="container">
+    <div class="dash-head">
+      <div class="reveal">
+        <div class="section-eyebrow">Natural Language</div>
+        <h2 class="section-title">No formulas. Just <em>questions.</em></h2>
+      </div>
+      <p class="section-lede reveal">
+        Type what you want to know the way you'd ask a colleague. Performlytics reasons
+        across your data and writes the answer,with the numbers, the context, and the
+        recommendation.
+      </p>
+    </div>
+
+    <div class="query-demo reveal" id="queryDemo">
+      <div class="query-input">
+        <span class="prompt">ask →</span>
+        <div class="query-typed" id="queryTyped"></div>
+      </div>
+      <div class="query-answer" id="queryAnswer">
+        Your <b>top-performing channel</b> this quarter is direct email, generating:
+        <span class="num">$312K</span>
+        That's <b>41% of total revenue</b> on just 12% of spend. Your next best is organic search at $189K, but it's trending flat since March. <b>Recommendation:</b> shift $4K from paid search into email nurture sequences,the data shows a 3.1x better CAC.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="container">
+    <div class="features-head">
+      <div class="reveal">
+        <div class="section-eyebrow">What's inside</div>
+        <h2 class="section-title">Your entire <em>analytics</em> stack. One tool.</h2>
+      </div>
+      <p class="section-lede reveal">Upload, ask, train, share. Performlytics replaces the spreadsheet, the BI tool, and the analyst you don't have.</p>
+    </div>
+
+    <div class="features-grid stagger">
+      <div class="feature f-wide reveal" style="--i:1">
+        <div>
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>
+          <div class="feature-num">01 · SPREADSHEET UPLOAD</div>
+          <h3>Drop in a CSV or Excel. Watch it transform.</h3>
+          <p>Performlytics reads your raw data,column headers, formulas, pivot tables,and auto-generates a visual dashboard with charts, trends, and AI-written insights in seconds.</p>
+        </div>
+      </div>
+
+      <div class="feature f-tall violet-accent reveal" style="--i:2">
+        <div>
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="feature-num">02 · ASK IN ENGLISH</div>
+          <h3>No SQL. No formulas. Just questions.</h3>
+          <p>Type what you'd ask an analyst: "What's driving churn this quarter?",and get the answer with supporting data, charts, and recommendations.</p>
+        </div>
+      </div>
+
+      <div class="feature f-third reveal" style="--i:3">
+        <div>
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
+          <div class="feature-num">03 · TRAIN THE MODEL</div>
+          <h3>Teach it your business.</h3>
+          <p>Upload your glossary, your KPI definitions, your local jargon. Performlytics speaks your language, not generic analytics-speak.</p>
+        </div>
+      </div>
+
+      <div class="feature f-third violet-accent reveal" style="--i:4">
+        <div>
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 5-6"/></svg></div>
+          <div class="feature-num">04 · CUSTOM DASHBOARDS</div>
+          <h3>Exactly the view you need.</h3>
+          <p>Pin charts, rearrange widgets, set alerts. Every dashboard is fully customisable,and shareable with your team in one click.</p>
+        </div>
+      </div>
+
+      <div class="feature f-third reveal" style="--i:5">
+        <div>
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div class="feature-num">05 · AI REPORTS</div>
+          <h3>The report you'd write. In 12 seconds.</h3>
+          <p>Performlytics writes the narrative: what changed, why it matters, what to do next. PDF, Slack, email,one click.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-cream" id="how">
+  <div class="container">
+    <div class="how-head">
+      <div class="reveal">
+        <div class="section-eyebrow">How it works</div>
+        <h2 class="section-title">From spreadsheet <em>to insight.</em> Three steps.</h2>
+      </div>
+      <p class="section-lede reveal">No implementation project. No data engineering team. You upload, you ask, you know.</p>
+    </div>
+    <div class="steps stagger">
+      <div class="step reveal" style="--i:1">
+        <span class="step-num">01</span>
+        <h4>Upload your data.</h4>
+        <p>Drag in a spreadsheet, connect Stripe, HubSpot, or Postgres. Performlytics maps your schema automatically.</p>
+      </div>
+      <div class="step reveal" style="--i:2">
+        <span class="step-num">02</span>
+        <h4>Ask your first question.</h4>
+        <p>Type it the way you'd ask a colleague. The dashboard, the chart, and the narrative build themselves.</p>
+      </div>
+      <div class="step reveal" style="--i:3">
+        <span class="step-num">03</span>
+        <h4>Share the insight.</h4>
+        <p>One-click export to PDF, Slack, or email. Your team gets the answer, not the spreadsheet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVENUE -->
+<section class="revenue">
+  <div class="container">
+    <div class="revenue-grid">
+      <div class="reveal">
+        <div class="section-eyebrow">The Outcome</div>
+        <div class="big-stat">12s</div>
+        <div class="big-stat-label">Average time from question to fully rendered dashboard with AI-written insight. Down from 6 hours in a spreadsheet.</div>
+      </div>
+      <div class="reveal">
+        <div class="pullquote">
+          I used to spend every Monday morning building a report nobody read. Now I ask one question and share the link. The whole team actually <em style="font-family: 'Instrument Serif', serif; color: var(--blue); font-style: italic;">looks at it.</em>
+        </div>
+        <div class="quote-attr">Founder / COO, 40-person SaaS company</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO FORM -->
+<section class="demo-form" id="demo">
+  <div class="form-wrap">
+    <div class="section-eyebrow">Book a demo</div>
+    <h2 class="section-title" style="max-width: 20ch;">See your <em>own</em> data come alive.</h2>
+    <p class="section-lede">25 minutes. Bring a spreadsheet and we'll build your first dashboard live on the call.</p>
+
+    <form class="booking" id="bookingForm">
+      <div class="form-row">
+        <div class="field"><label for="name">Your name</label><input type="text" id="name" required placeholder="Jane Smith"></div>
+        <div class="field"><label for="email">Work email</label><input type="email" id="email" required placeholder="jane@company.com"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label for="company">Company</label><input type="text" id="company" required placeholder="Acme Inc."></div>
+        <div class="field"><label for="role">Your role</label>
+          <select id="role" required>
+            <option value="">Select...</option>
+            <option>Founder / CEO</option>
+            <option>CFO / Finance</option>
+            <option>RevOps / Growth</option>
+            <option>Head of Sales</option>
+            <option>Data / Analytics</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" style="grid-template-columns: 1fr;">
+        <div class="field"><label for="notes">What would you love to ask your data? (optional)</label><textarea id="notes" placeholder="e.g. I want to know why Q1 revenue dropped 15% but our pipeline says it shouldn't have..."></textarea></div>
+      </div>
+      <div class="form-cta">
+        <div class="form-meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg> 25 minutes · live dashboard build</div>
+        <button type="submit">Book my demo <span>→</span></button>
+      </div>
+    </form>
+    <div class="success" id="successMsg">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+      <h3>Booked. Check your inbox.</h3>
+      <p>We'll send a calendar link within the hour. Bring a spreadsheet,we'll build it live.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POWERED BY -->
+<section class="powered-section">
+  <a class="powered-link" href="https://performos.com.au" target="_blank" rel="noopener">
+    <div class="powered-eyebrow">Part of the family</div>
+    <h2 class="powered-headline">
+      <span class="powered-by-text">Powered by</span>
+      <span class="brand-name">performOS <span class="pw-arrow">↗</span></span>
+    </h2>
+    <p class="powered-desc">Performlytics is built on performOS, the operating system for high-performance teams.</p>
+    <span class="powered-url">performos.com.au →</span>
+  </a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18" stroke="#0A0A0A" stroke-width="2.5"/><path d="M7 14l4-4 4 4 5-6" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      Performlytics
+    </div>
+    <div class="footer-links">
+      <a href="#product">Product</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#how">How it works</a>
+      <a href="#demo">Demo</a>
+    </div>
+    <div class="powered-by">Powered by <b>performOS</b></div>
+  </div>
+  <div class="footer-legal">
+    <span>© 2026 Performlytics. All rights reserved.</span>
+    <span>Built for founders, CFOs, and RevOps leaders who refuse to live in spreadsheets.</span>
+  </div>
+</footer>
+
+<script>
+  /* =========================================================
+     1. SCROLL REVEAL
+     ========================================================= */
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  /* =========================================================
+     2. HEADER SCROLL
+     ========================================================= */
+  const header = document.querySelector('header');
+  window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 50); });
+
+  /* =========================================================
+     3. PARTICLE GRID CANVAS (data nodes)
+     ========================================================= */
+  const canvas = document.getElementById('particleCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    function resize() { W = canvas.width = canvas.parentElement.offsetWidth; H = canvas.height = canvas.parentElement.offsetHeight; }
+    resize(); window.addEventListener('resize', resize);
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * 2000, y: Math.random() * 1200,
+        vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.2,
+        r: 1.5 + Math.random() * 1.5,
+        c: Math.random() > 0.7 ? 'rgba(139,92,246,0.6)' : 'rgba(59,130,246,0.5)'
+      });
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.c; ctx.fill();
+      });
+      // Lines between close particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 150) {
+            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(59,130,246,${0.08 * (1 - dist / 150)})`;
+            ctx.lineWidth = 0.5; ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  /* =========================================================
+     4. DASHBOARD ANIMATIONS
+     ========================================================= */
+  const dashCard = document.getElementById('dashCard');
+  let dashPlayed = false;
+
+  function animateMetric(el) {
+    const target = parseFloat(el.dataset.target);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const isFloat = !Number.isInteger(target);
+    let current = 0; const steps = 40; let s = 0;
+    const iv = setInterval(() => {
+      s++; current = isFloat ? Math.min(target, (target / steps) * s) : Math.min(target, Math.round((target / steps) * s));
+      el.textContent = prefix + (isFloat ? current.toFixed(1) : current) + suffix;
+      if (s >= steps) { el.textContent = prefix + (isFloat ? target.toFixed(1) : target) + suffix; clearInterval(iv); }
+    }, 30);
+  }
+
+  function growBars() {
+    const chart = document.getElementById('barChart');
+    if (!chart) return;
+    const data = [
+      { h: 45, label: 'W1' }, { h: 62, label: 'W2', v: true }, { h: 55, label: 'W3' },
+      { h: 78, label: 'W4' }, { h: 68, label: 'W5', v: true }, { h: 85, label: 'W6' },
+      { h: 72, label: 'W7' }, { h: 95, label: 'W8' }
+    ];
+    chart.innerHTML = '';
+    data.forEach((d, i) => {
+      const col = document.createElement('div'); col.className = 'bar-col';
+      const bar = document.createElement('div');
+      bar.className = 'bar' + (d.v ? ' violet' : '');
+      bar.style.height = d.h + '%';
+      const lbl = document.createElement('span'); lbl.className = 'bar-label'; lbl.textContent = d.label;
+      col.appendChild(bar); col.appendChild(lbl);
+      chart.appendChild(col);
+      setTimeout(() => bar.classList.add('grown'), 200 + i * 120);
+    });
+  }
+
+  function drawLines() {
+    document.querySelectorAll('.line-path').forEach(p => p.classList.add('drawn'));
+    document.querySelectorAll('.line-area').forEach(a => a.classList.add('drawn'));
+  }
+
+  function runDashboard() {
+    if (dashPlayed) return; dashPlayed = true;
+
+    // 1. Count up metrics with stagger
+    document.querySelectorAll('.metric-value[data-target]').forEach((el, i) => {
+      setTimeout(() => {
+        animateMetric(el);
+        el.classList.add('live');
+      }, i * 300);
+    });
+
+    // 2. Light up live dots
+    document.querySelectorAll('.metric-card .live-dot').forEach((dot, i) => {
+      setTimeout(() => dot.classList.add('on'), 150 + i * 250);
+    });
+
+    // 3. Draw sparklines below each metric card
+    document.querySelectorAll('.metric-card .sparkline').forEach((sl, i) => {
+      setTimeout(() => {
+        sl.classList.add('visible');
+        sl.querySelectorAll('.spark-path').forEach(p => p.classList.add('drawn'));
+      }, 500 + i * 350);
+    });
+
+    // 4. Grow bar chart
+    setTimeout(growBars, 800);
+
+    // 5. Draw line chart
+    setTimeout(drawLines, 1200);
+
+    // 6. Reveal AI insight
+    setTimeout(() => document.getElementById('aiInsight').classList.add('visible'), 2800);
+
+    // 7. Simulate live metric flicker every few seconds
+    setInterval(() => {
+      const vals = document.querySelectorAll('.metric-value[data-target]');
+      const pick = vals[Math.floor(Math.random() * vals.length)];
+      if (!pick) return;
+      const target = parseFloat(pick.dataset.target);
+      const prefix = pick.dataset.prefix || '';
+      const suffix = pick.dataset.suffix || '';
+      const isFloat = !Number.isInteger(target);
+      const jitter = isFloat ? (Math.random() * 0.4 - 0.2) : Math.round(Math.random() * 4 - 2);
+      const newVal = isFloat ? (target + jitter).toFixed(1) : (target + jitter);
+      pick.style.transition = 'opacity 0.15s';
+      pick.style.opacity = '0.5';
+      setTimeout(() => {
+        pick.textContent = prefix + newVal + suffix;
+        pick.style.opacity = '1';
+      }, 150);
+    }, 3500);
+  }
+
+  const dashIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.2) { runDashboard(); dashIO.unobserve(e.target); } });
+  }, { threshold: [0, 0.2] });
+  if (dashCard) dashIO.observe(dashCard);
+
+  /* =========================================================
+     5. QUERY TYPEWRITER
+     ========================================================= */
+  const queryDemo = document.getElementById('queryDemo');
+  const queryTyped = document.getElementById('queryTyped');
+  const queryAnswer = document.getElementById('queryAnswer');
+  let queryPlayed = false;
+
+  function typeQuery() {
+    if (queryPlayed) return; queryPlayed = true;
+    const text = "What's my best-performing channel this quarter, and where should I reallocate budget?";
+    const caret = document.createElement('span'); caret.className = 'caret';
+    queryTyped.appendChild(caret);
+    let i = 0;
+    (function step() {
+      if (i <= text.length) {
+        queryTyped.textContent = text.slice(0, i);
+        queryTyped.appendChild(caret);
+        i++; setTimeout(step, 22 + Math.random() * 15);
+      } else {
+        if (caret.parentNode) caret.parentNode.removeChild(caret);
+        setTimeout(() => queryAnswer.classList.add('visible'), 400);
+      }
+    })();
+  }
+
+  const queryIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.4) { typeQuery(); queryIO.unobserve(e.target); } });
+  }, { threshold: [0, 0.4] });
+  if (queryDemo) queryIO.observe(queryDemo);
+
+  /* =========================================================
+     6. FORM
+     ========================================================= */
+  const form = document.getElementById('bookingForm');
+  const success = document.getElementById('successMsg');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.style.display = 'none';
+    success.style.display = 'block';
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+
+</body>
+</html>
