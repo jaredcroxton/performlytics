@@ -15,9 +15,9 @@
   <rect x="80" y="60" width="56" height="56" rx="14" fill="url(#ibg)"/>
   <text x="150" y="98" font-family="Archivo, sans-serif" font-weight="800" font-size="28" fill="#F0F0F5">Performlytics</text>
 
-  <text x="80" y="240" font-family="Archivo, sans-serif" font-weight="900" font-size="62" fill="#F0F0F5" letter-spacing="-2">ASK YOUR DATA</text>
-  <text x="80" y="320" font-family="Georgia, serif" font-style="italic" font-size="68" fill="#3B82F6" letter-spacing="-2">anything.</text>
-  <text x="80" y="400" font-family="Archivo, sans-serif" font-weight="900" font-size="58" fill="#F0F0F5" letter-spacing="-2">IN PLAIN ENGLISH.</text>
+  <text x="80" y="280" font-family="Archivo, sans-serif" font-weight="900" font-size="62" fill="#F0F0F5" letter-spacing="-2">ASK YOUR DATA</text>
+  <text x="80" y="360" font-family="Georgia, serif" font-style="italic" font-size="68" fill="#3B82F6" letter-spacing="-2">anything.</text>
+  <text x="80" y="440" font-family="Archivo, sans-serif" font-weight="900" font-size="58" fill="#F0F0F5" letter-spacing="-2">IN PLAIN ENGLISH.</text>
 
   <text x="80" y="520" font-family="monospace" font-size="14" fill="#71717A" letter-spacing="4">AI-POWERED BUSINESS INTELLIGENCE</text>
   <text x="80" y="560" font-family="monospace" font-size="13" fill="#52525B" letter-spacing="2">POWERED BY PERFORMOS</text>
