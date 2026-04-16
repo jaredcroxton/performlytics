@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="g1" cx="30%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="80%" cy="75%" r="55%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ibg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  <ellipse cx="360" cy="200" rx="500" ry="380" fill="url(#g1)"/>
+  <ellipse cx="950" cy="480" rx="400" ry="300" fill="url(#g2)"/>
+
+  <!-- Brand -->
+  <g transform="translate(80, 72)">
+    <rect width="64" height="64" rx="16" fill="url(#ibg)"/>
+    <path d="M16 16v32h32" stroke="#0A0A0A" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M24 38l8-8 8 8 12-14" stroke="#0A0A0A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <text x="82" y="48"
+          font-family="Archivo, 'Helvetica Neue', Arial, sans-serif"
+          font-weight="800" font-size="36"
+          fill="#F0F0F5"
+          letter-spacing="-0.5">Performlytics</text>
+  </g>
+
+  <!-- Headline -->
+  <g transform="translate(80, 240)">
+    <text x="0" y="0"
+          font-family="Archivo, 'Helvetica Neue', Arial, sans-serif"
+          font-weight="900" font-size="92"
+          fill="#F0F0F5"
+          letter-spacing="-3">ASK YOUR DATA</text>
+    <text x="0" y="105"
+          font-family="'Instrument Serif', Georgia, serif"
+          font-style="italic" font-size="110"
+          fill="#3B82F6"
+          letter-spacing="-2">anything.</text>
+    <text x="0" y="210"
+          font-family="Archivo, 'Helvetica Neue', Arial, sans-serif"
+          font-weight="900" font-size="86"
+          fill="#F0F0F5"
+          letter-spacing="-3">IN PLAIN ENGLISH.</text>
+  </g>
+
+  <!-- Tagline -->
+  <text x="80" y="590"
+        font-family="'JetBrains Mono', monospace"
+        font-size="18" font-weight="500"
+        fill="#71717A"
+        letter-spacing="3">AI-POWERED BUSINESS INTELLIGENCE</text>
+
+  <text x="1120" y="590"
+        font-family="'JetBrains Mono', monospace"
+        font-size="14"
+        fill="#71717A"
+        letter-spacing="2"
+        text-anchor="end">POWERED BY PERFORMOS</text>
+</svg>
