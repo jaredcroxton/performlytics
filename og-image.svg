@@ -9,48 +9,16 @@
       <stop offset="100%" stop-color="#8B5CF6"/>
     </linearGradient>
   </defs>
-
   <rect width="1200" height="630" fill="#0A0A0A"/>
   <ellipse cx="600" cy="280" rx="500" ry="400" fill="url(#g1)"/>
 
-  <!-- Brand centered -->
-  <g transform="translate(600, 80)" text-anchor="middle">
-    <rect x="-32" y="0" width="64" height="64" rx="16" fill="url(#ibg)"/>
-    <path d="M-16 16v32h32" stroke="#0A0A0A" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <path d="M-8 38l8-8 8 8 12-14" stroke="#0A0A0A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    <text x="0" y="105"
-          font-family="Archivo, 'Helvetica Neue', Arial, sans-serif"
-          font-weight="800" font-size="28"
-          fill="#F0F0F5"
-          text-anchor="middle">Performlytics</text>
-  </g>
+  <rect x="80" y="60" width="56" height="56" rx="14" fill="url(#ibg)"/>
+  <text x="150" y="98" font-family="Archivo, sans-serif" font-weight="800" font-size="28" fill="#F0F0F5">Performlytics</text>
 
-  <!-- Headline centered -->
-  <text x="600" y="275"
-        font-family="Archivo, 'Helvetica Neue', Arial, sans-serif"
-        font-weight="900" font-size="58"
-        fill="#F0F0F5" text-anchor="middle"
-        letter-spacing="-2">ASK YOUR DATA</text>
-  <text x="600" y="355"
-        font-family="'Instrument Serif', Georgia, serif"
-        font-style="italic" font-size="65"
-        fill="#3B82F6" text-anchor="middle"
-        letter-spacing="-2">anything.</text>
-  <text x="600" y="435"
-        font-family="Archivo, 'Helvetica Neue', Arial, sans-serif"
-        font-weight="900" font-size="56"
-        fill="#F0F0F5" text-anchor="middle"
-        letter-spacing="-2">IN PLAIN ENGLISH.</text>
+  <text x="80" y="240" font-family="Archivo, sans-serif" font-weight="900" font-size="62" fill="#F0F0F5" letter-spacing="-2">ASK YOUR DATA</text>
+  <text x="80" y="320" font-family="Georgia, serif" font-style="italic" font-size="68" fill="#3B82F6" letter-spacing="-2">anything.</text>
+  <text x="80" y="400" font-family="Archivo, sans-serif" font-weight="900" font-size="58" fill="#F0F0F5" letter-spacing="-2">IN PLAIN ENGLISH.</text>
 
-  <text x="600" y="560"
-        font-family="'JetBrains Mono', monospace"
-        font-size="16" font-weight="500"
-        fill="#71717A" text-anchor="middle"
-        letter-spacing="4">AI-POWERED BUSINESS INTELLIGENCE</text>
-
-  <text x="600" y="600"
-        font-family="'JetBrains Mono', monospace"
-        font-size="13"
-        fill="#52525B" text-anchor="middle"
-        letter-spacing="2">POWERED BY PERFORMOS</text>
+  <text x="80" y="520" font-family="monospace" font-size="14" fill="#71717A" letter-spacing="4">AI-POWERED BUSINESS INTELLIGENCE</text>
+  <text x="80" y="560" font-family="monospace" font-size="13" fill="#52525B" letter-spacing="2">POWERED BY PERFORMOS</text>
 </svg>
