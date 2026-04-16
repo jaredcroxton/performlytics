@@ -26,19 +26,19 @@
   </g>
 
   <!-- Headline centered -->
-  <text x="600" y="280"
+  <text x="600" y="275"
         font-family="Archivo, 'Helvetica Neue', Arial, sans-serif"
-        font-weight="900" font-size="82"
+        font-weight="900" font-size="58"
         fill="#F0F0F5" text-anchor="middle"
         letter-spacing="-2">ASK YOUR DATA</text>
-  <text x="600" y="375"
+  <text x="600" y="355"
         font-family="'Instrument Serif', Georgia, serif"
-        font-style="italic" font-size="95"
+        font-style="italic" font-size="65"
         fill="#3B82F6" text-anchor="middle"
         letter-spacing="-2">anything.</text>
-  <text x="600" y="460"
+  <text x="600" y="435"
         font-family="Archivo, 'Helvetica Neue', Arial, sans-serif"
-        font-weight="900" font-size="78"
+        font-weight="900" font-size="56"
         fill="#F0F0F5" text-anchor="middle"
         letter-spacing="-2">IN PLAIN ENGLISH.</text>
 
